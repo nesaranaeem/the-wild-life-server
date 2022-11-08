@@ -50,10 +50,16 @@ const run = async () => {
 
     //all services
 
+    //display all services
+    app.get("/all-services", async (req, res) => {
+      const query = {};
+      const cursor = servicesCollection.find(query);
+      const services = await cursor.toArray();
+      res.send(services);
+    });
     //display 3 services
     app.get("/services", async (req, res) => {
       const query = {};
-
       const cursor = servicesCollection.find(query);
       const services = await cursor.limit(3).toArray();
       res.send(services);
@@ -100,7 +106,8 @@ const run = async () => {
     app.get("/reviews/:id", async (req, res) => {
       const id = req.params.id;
       const query = { serviceId: id };
-      const cursor = reviewsCollection.find(query);
+      const sort = { length: -1 };
+      const cursor = reviewsCollection.find(query).sort({ _id: -1 });
       const review = await cursor.toArray();
       res.send(review);
     });
@@ -118,8 +125,31 @@ const run = async () => {
         };
       }
       const cursor = reviewsCollection.find(query);
-      const orders = await cursor.toArray();
-      res.send(orders);
+      const reviewby = await cursor.toArray();
+      res.send(reviewby);
+    });
+
+    //delete review
+
+    app.delete("/reviewby/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await reviewsCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    //patch
+    app.patch("/reviewby/:id", async (req, res) => {
+      const id = req.params.id;
+      const description = req.body.description;
+      const query = { _id: ObjectId(id) };
+      const update = {
+        $set: {
+          description: description,
+        },
+      };
+      const result = await ordersCollection.updateOne(query, update);
+      res.send(result);
     });
   } finally {
   }
