@@ -48,6 +48,32 @@ const run = async () => {
       res.send({ token });
     });
 
+    //all services
+
+    //all services
+    app.get("/services", async (req, res) => {
+      const query = {};
+
+      const cursor = servicesCollection.find(query);
+      const services = await cursor.toArray();
+      res.send(services);
+    });
+    //get services list submitted by user
+    app.get("/services", verifyJWT, async (req, res) => {
+      const decoded = req.decoded;
+      if (decoded.email !== req.query.email) {
+        res.status(403).send({ message: "Unauthorized Access" });
+      }
+      let query = {};
+      if (req.query.email) {
+        query = {
+          email: req.query.email,
+        };
+      }
+      const cursor = servicesCollection.find(query);
+      const orders = await cursor.toArray();
+      res.send(orders);
+    });
     //post to services
     app.post("/services", async (req, res) => {
       const service = req.body;
