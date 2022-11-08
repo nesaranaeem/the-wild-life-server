@@ -37,6 +37,23 @@ const run = async () => {
     const database = client.db("theWildLife");
     const servicesCollection = database.collection("services");
     const reviewsCollection = database.collection("reviews");
+
+    //tokens
+    app.post("/jwt", (req, res) => {
+      user = req.body;
+      console.log(user);
+      const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "1h",
+      });
+      res.send({ token });
+    });
+
+    //post to services
+    app.post("/services", async (req, res) => {
+      const service = req.body;
+      const result = await servicesCollection.insertOne(service);
+      res.send(result);
+    });
   } finally {
   }
 };
