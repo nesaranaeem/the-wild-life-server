@@ -50,16 +50,25 @@ const run = async () => {
 
     //all services
 
-    //all services
+    //display 3 services
     app.get("/services", async (req, res) => {
       const query = {};
 
       const cursor = servicesCollection.find(query);
-      const services = await cursor.toArray();
+      const services = await cursor.limit(3).toArray();
       res.send(services);
     });
+
+    //get specific service
+    app.get("/services/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const service = await servicesCollection.findOne(query);
+      res.send(service);
+    });
+
     //get services list submitted by user
-    app.get("/services", verifyJWT, async (req, res) => {
+    app.get("/serviceby", verifyJWT, async (req, res) => {
       const decoded = req.decoded;
       if (decoded.email !== req.query.email) {
         res.status(403).send({ message: "Unauthorized Access" });
@@ -79,6 +88,38 @@ const run = async () => {
       const service = req.body;
       const result = await servicesCollection.insertOne(service);
       res.send(result);
+    });
+
+    //post reviews
+    app.post("/reviews", async (req, res) => {
+      const service = req.body;
+      const result = await reviewsCollection.insertOne(service);
+      res.send(result);
+    });
+    //display reviews by id
+    app.get("/reviews/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { serviceId: id };
+      const cursor = reviewsCollection.find(query);
+      const review = await cursor.toArray();
+      res.send(review);
+    });
+
+    //review by user
+    app.get("/reviewby", verifyJWT, async (req, res) => {
+      const decoded = req.decoded;
+      if (decoded.email !== req.query.email) {
+        res.status(403).send({ message: "Unauthorized Access" });
+      }
+      let query = {};
+      if (req.query.email) {
+        query = {
+          email: req.query.email,
+        };
+      }
+      const cursor = reviewsCollection.find(query);
+      const orders = await cursor.toArray();
+      res.send(orders);
     });
   } finally {
   }
