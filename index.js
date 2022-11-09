@@ -142,7 +142,7 @@ const run = async () => {
     app.patch("/updatereview/:id", async (req, res) => {
       const id = req.params.id;
       const description = req.body.description;
-      console.log(description);
+
       const query = { _id: ObjectId(id) };
       const update = {
         $set: {
