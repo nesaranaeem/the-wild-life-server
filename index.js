@@ -139,16 +139,17 @@ const run = async () => {
     });
 
     //patch
-    app.patch("/reviewby/:id", async (req, res) => {
+    app.patch("/updatereview/:id", async (req, res) => {
       const id = req.params.id;
       const description = req.body.description;
+      console.log(description);
       const query = { _id: ObjectId(id) };
       const update = {
         $set: {
           description: description,
         },
       };
-      const result = await ordersCollection.updateOne(query, update);
+      const result = await reviewsCollection.updateOne(query, update);
       res.send(result);
     });
   } finally {
