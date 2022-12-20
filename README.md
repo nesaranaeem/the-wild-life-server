@@ -1,7 +1,44 @@
-# The Wild Life - Backend For WildLife Photographer Honest User Reviews System.
 
-### Live Site
+# The Wild Life Server
 
-- [https://the-wild-life.web.app/](https://the-wild-life.web.app/) - Client Site
-- [https://the-wildlife-professional-photographer-server.vercel.app/](https://the-wildlife-professional-photographer-server.vercel.app/) - Server Site
-- [https://github.com/nesaranaeem/the-wild-life-client](https://github.com/nesaranaeem/the-wild-life-client) - Client-side Code Github Repository
+Server side for WildLife - Photographer Honest User Reviews System
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`DB_USER`
+
+`DB_PASSWORD`
+
+`ACCESS_TOKEN_SECRET`
+
+
+## Deployment
+
+To deploy this project run
+
+```bash
+ nodemon index.js
+```
+
+
+## Dependencies
+
+Please check package.json
+
+## Installation
+
+Please install all required dependencies before run the project.
+    
+## License
+
+[MIT](https://en.wikipedia.org/wiki/MIT_License)
+
+
+
+## Author
+
+- [@nesaranaeem](https://www.github.com/nesaranaeem)
+
