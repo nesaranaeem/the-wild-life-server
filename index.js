@@ -51,7 +51,6 @@ const run = async () => {
 
     //all services
 
-    //display all services
     app.get("/all-services", async (req, res) => {
       const query = {};
       const sort = { length: -1 };
